@@ -40,14 +40,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-int _write(int file, uint8_t *ptr, int len)
-{
-	for (int DataIdx = 0; DataIdx < len; DataIdx++)
-	{
-		ITM_SendChar(*ptr++);
-	}
-	return len;
-}
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -194,6 +187,9 @@ int main(void)
   HAL_UARTEx_ReceiveToIdle_IT(&huart1, basic_rx_buff, rx_buff_size);
   HAL_UART_Receive_IT (&huart2, mhz19_rx_buff, mhz19_rx_buff_size);
 
+  float hdc1080_temp = 0;
+  uint8_t hdc1080_hum = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -205,6 +201,8 @@ int main(void)
 	  if((HAL_GetTick()-T) >= mhz19_pend_period)
 	  {
 		  HAL_UART_Transmit(&huart2, mhz19_cmd_read_co2, sizeof(mhz19_cmd_read_co2),UART_MHZ19B_DELAY);
+		  hdc1080_init(&hi2c1, Temperature_Resolution_14_bit, Humidity_Resolution_14_bit);
+		  hdc1080_start_measurement(&hi2c1, &hdc1080_temp, &hdc1080_hum);
 	  	  T = HAL_GetTick();
 	  }
     /* USER CODE END WHILE */
