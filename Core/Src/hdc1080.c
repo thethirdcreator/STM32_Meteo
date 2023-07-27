@@ -41,6 +41,7 @@ uint8_t hdc1080_start_measurement(I2C_HandleTypeDef* hi2c_x,float* temperature, 
 	uint8_t receive_data[4];
 	uint16_t temp_x,humi_x;
 	uint8_t send_data = Temperature_register_addr;
+	int32_t temp_int = 0;
 
 	HAL_I2C_Master_Transmit(hi2c_x,HDC_1080_ADDR<<1,&send_data,1,1000);
 
@@ -56,6 +57,7 @@ uint8_t hdc1080_start_measurement(I2C_HandleTypeDef* hi2c_x,float* temperature, 
 	humi_x =((receive_data[2]<<8)|receive_data[3]);
 
 	*temperature=((temp_x/65536.0)*165.0)-40.0;
+	temp_int = ((temp_x*1650)/65535)-400;
 	*humidity=(uint8_t)((humi_x/65536.0)*100.0);
 
 	return 0;
