@@ -2,4 +2,8 @@
 /Release
 /.vs
 /.vscode
+<<<<<<< HEAD
 /.settings/language.settings.xml
+=======
+.settings/language.settings.xml
+>>>>>>> fc1b0e1b04068d3f841c98db251a553c88c0b60a
