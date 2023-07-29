@@ -188,13 +188,14 @@ int main(void)
   HAL_UARTEx_ReceiveToIdle_IT(&huart1, basic_rx_buff, rx_buff_size);
   HAL_UART_Receive_IT (&huart2, mhz19_rx_buff, mhz19_rx_buff_size);
 
-  float hdc1080_temp = 0;
-  uint8_t hdc1080_hum = 0;
-  HDC1080_Typedef HDC1080;
-  HDC1080.Humi_Res = Humidity_Resolution_8_bit;
-  HDC1080.Temp_Res = Temperature_Resolution_11_bit;
-  HDC1080.bUseHeater = 1;
+  HDC1080_Typedef HDC1080 = {
+  .Humi_Res = Humidity_Resolution_14_bit,
+  .Temp_Res = Temperature_Resolution_14_bit,
+  .Heater = NotUseHeater,
+  .Mode = AquireInSequence,
+  .hi2c = &hi2c1};
   hdc1080_init(&HDC1080);
+  uint8_t hdc1080_tx_buff[20];
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -206,7 +207,18 @@ int main(void)
 	  if((HAL_GetTick()-T) >= mhz19_pend_period)
 	  {
 		  HAL_UART_Transmit(&huart2, mhz19_cmd_read_co2, sizeof(mhz19_cmd_read_co2),UART_MHZ19B_DELAY);
+		  hdc1080_Measure(&HDC1080);
 
+		  sprintf(hdc1080_tx_buff, "%i.%u", HDC1080.temp/10, HDC1080.temp%10);
+		  HAL_UART_Transmit(&huart1, hdc1080_tx_buff, strlen(hdc1080_tx_buff),20);
+		  HAL_UART_Transmit(&huart1, ",", strlen(","),20);
+
+		  sprintf(hdc1080_tx_buff, "%i", HDC1080.humi);
+		  HAL_UART_Transmit(&huart1, hdc1080_tx_buff, strlen(hdc1080_tx_buff),20);
+		  HAL_UART_Transmit(&huart1, ",", strlen(","),20);
+
+		  HAL_UART_Transmit_IT(&huart1, mhz19_tx_buff, strlen((char*)mhz19_tx_buff));
+		  HAL_UART_Transmit(&huart1, "\r\n", strlen("\r\n"),20);
 	  	  T = HAL_GetTick();
 	  }
     /* USER CODE END WHILE */
