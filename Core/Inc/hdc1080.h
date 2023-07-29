@@ -19,7 +19,7 @@
 #define HDC1080_RST  0x15
 
 
-typedef struct HDC1080_Instance
+typedef struct __HDC1080_Typedef
 {
 	I2C_HandleTypeDef hi2c;
 	enum
@@ -40,9 +40,9 @@ typedef struct HDC1080_Instance
 	int32_t temp;
 	uint32_t humi;
 
-};
+}HDC1080_Typedef;
 
-void hdc1080_init(struct HDC1080_Instance*);
+void hdc1080_init(struct __HDC1080_Typedef*);
 
 /*
 void hdc1080_init(I2C_HandleTypeDef*,Temp_Res Temperature_Resolution_x_bit,HDC1080_Humi_Res Humidity_Resolution_x_bit);

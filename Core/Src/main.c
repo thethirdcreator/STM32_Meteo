@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "MHZ_19B.h"
+#include "hdc1080.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -189,7 +190,11 @@ int main(void)
 
   float hdc1080_temp = 0;
   uint8_t hdc1080_hum = 0;
-
+  HDC1080_Typedef HDC1080;
+  HDC1080.Humi_Res = Humidity_Resolution_8_bit;
+  HDC1080.Temp_Res = Temperature_Resolution_11_bit;
+  HDC1080.bUseHeater = 1;
+  hdc1080_init(&HDC1080);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -201,8 +206,7 @@ int main(void)
 	  if((HAL_GetTick()-T) >= mhz19_pend_period)
 	  {
 		  HAL_UART_Transmit(&huart2, mhz19_cmd_read_co2, sizeof(mhz19_cmd_read_co2),UART_MHZ19B_DELAY);
-		  hdc1080_init(&hi2c1, Temperature_Resolution_14_bit, Humidity_Resolution_14_bit);
-		  hdc1080_start_measurement(&hi2c1, &hdc1080_temp, &hdc1080_hum);
+
 	  	  T = HAL_GetTick();
 	  }
     /* USER CODE END WHILE */

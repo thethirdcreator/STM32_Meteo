@@ -1,10 +1,11 @@
 #include "hdc1080.h"
 
 
-void hdc1080_init(struct HDC1080_Instance* HDC1080ptr)
+void hdc1080_init(struct __HDC1080_Typedef* HDC1080ptr)
 {
 	uint16_t control_Reg = 0;
-	control_Reg = (HDC1080ptr->Humi_Res<<HDC1080_HRES)|(HDC1080ptr->Temp_Res<<HDC1080_TRES)|(HDC1080ptr->Temp_Res<<HDC1080_TRES) ;
+	control_Reg = (HDC1080ptr->Humi_Res<<HDC1080_HRES)|(HDC1080ptr->Temp_Res<<HDC1080_TRES)|(HDC1080ptr->bUseHeater<<HDC1080_HEAT);
+	control_Reg;
 }
 
 /*void hdc1080_init(I2C_HandleTypeDef* hi2c_x,HDC1080_Temp_Res Temperature_Resolution_x_bit,HDC1080_Humi_Res Humidity_Resolution_x_bit)
