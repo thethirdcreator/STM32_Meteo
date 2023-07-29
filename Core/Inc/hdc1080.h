@@ -4,8 +4,6 @@
 #include "stm32f0xx_hal.h"
 #include "stm32f0xx_hal_i2c.h"
 
-//#define bHDC1080UseFloatCalculation
-
 #define         HDC_1080_ADDR                            0x40
 #define         Configuration_register_addr              0x02
 #define         Temperature_register_addr                0x00
@@ -54,16 +52,6 @@ typedef struct __HDC1080_Typedef
 void hdc1080_init(struct __HDC1080_Typedef*);
 void hdc1080_Measure(struct __HDC1080_Typedef*);
 
-/*
-void hdc1080_init(I2C_HandleTypeDef*,Temp_Res Temperature_Resolution_x_bit,HDC1080_Humi_Res Humidity_Resolution_x_bit);
-#ifdef bHDC1080UseFloatCalculation
-uint8_t hdc1080_start_measurement(I2C_HandleTypeDef*,float*, uint8_t*);
-#else
-uint8_t hdc1080_start_measurement(I2C_HandleTypeDef*,int32_t*, uint8_t*);
-void hdc1080_get_t(I2C_HandleTypeDef*,int32_t*);
-void hdc1080_get_t(I2C_HandleTypeDef*,uint8_t*);
-#endif
-*/
 
 #endif
 
