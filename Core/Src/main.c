@@ -214,7 +214,7 @@ int main(void)
 		  HAL_UART_Transmit(&huart1, hdc1080_tx_buff, strlen(hdc1080_tx_buff),20);
 		  HAL_UART_Transmit(&huart1, ",", strlen(","),20);
 
-		  sprintf(hdc1080_tx_buff, "%i", HDC1080.humi);
+		  sprintf(hdc1080_tx_buff, "%i.%i", HDC1080.humi/10, abs(HDC1080.humi%10));
 		  HAL_UART_Transmit(&huart1, hdc1080_tx_buff, strlen(hdc1080_tx_buff),20);
 		  //HAL_UART_Transmit(&huart1, ",", strlen(","),20);
 

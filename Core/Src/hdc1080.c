@@ -21,12 +21,12 @@ void hdc1080_Measure(struct __HDC1080_Typedef* HDC1080ptr)
 	HDC1080_TX_Buff[0] = Temperature_register_addr;
 	HAL_I2C_Master_Transmit(HDC1080ptr->hi2c,HDC_1080_ADDR<<1,HDC1080_TX_Buff,1,10);
 
-	HAL_Delay(15);
+	HAL_Delay(50);
 
-	HAL_I2C_Master_Receive(HDC1080ptr->hi2c,HDC_1080_ADDR<<1,HDC1080_RX_Buff,4,10);
+	HAL_I2C_Master_Receive(HDC1080ptr->hi2c,HDC_1080_ADDR<<1,HDC1080_RX_Buff,4,50);
 
 	HDC1080ptr->temp = ((((HDC1080_RX_Buff[0]<<8)|HDC1080_RX_Buff[1])*1650)/65535)-400;
-	HDC1080ptr->humi=(uint8_t)((((HDC1080_RX_Buff[0]<<8)|HDC1080_RX_Buff[1])*100/65536));
+	HDC1080ptr->humi = ((((HDC1080_RX_Buff[2]<<8)|HDC1080_RX_Buff[3])*1000/65535));
 }
 
 /*void hdc1080_init(I2C_HandleTypeDef* hi2c_x,HDC1080_Temp_Res Temperature_Resolution_x_bit,HDC1080_Humi_Res Humidity_Resolution_x_bit)
