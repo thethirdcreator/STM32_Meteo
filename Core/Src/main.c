@@ -20,6 +20,7 @@
 #include "main.h"
 #include "MHZ_19B.h"
 #include "hdc1080.h"
+#include "math.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -209,15 +210,15 @@ int main(void)
 		  HAL_UART_Transmit(&huart2, mhz19_cmd_read_co2, sizeof(mhz19_cmd_read_co2),UART_MHZ19B_DELAY);
 		  hdc1080_Measure(&HDC1080);
 
-		  sprintf(hdc1080_tx_buff, "%i.%u", HDC1080.temp/10, HDC1080.temp%10);
+		  sprintf(hdc1080_tx_buff, "%i.%i", HDC1080.temp/10, abs(HDC1080.temp%10));
 		  HAL_UART_Transmit(&huart1, hdc1080_tx_buff, strlen(hdc1080_tx_buff),20);
 		  HAL_UART_Transmit(&huart1, ",", strlen(","),20);
 
 		  sprintf(hdc1080_tx_buff, "%i", HDC1080.humi);
 		  HAL_UART_Transmit(&huart1, hdc1080_tx_buff, strlen(hdc1080_tx_buff),20);
-		  HAL_UART_Transmit(&huart1, ",", strlen(","),20);
+		  //HAL_UART_Transmit(&huart1, ",", strlen(","),20);
 
-		  HAL_UART_Transmit_IT(&huart1, mhz19_tx_buff, strlen((char*)mhz19_tx_buff));
+		  //HAL_UART_Transmit(&huart1, mhz19_tx_buff, strlen((char*)mhz19_tx_buff), 20);
 		  HAL_UART_Transmit(&huart1, "\r\n", strlen("\r\n"),20);
 	  	  T = HAL_GetTick();
 	  }
